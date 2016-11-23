@@ -634,6 +634,13 @@ build_script:
       if ($LastExitCode -ne 0) {
         throw "Build failed with exit code $LastExitCode."
       }
+
+test_script:
+  - cmd: cd /d "%APPVEYOR_BUILD_FOLDER%\build"
+  - cmd: ctest --build-config %CONFIGURATION% --verbose
+
+after_test:
+  - ps: |
       if ($env:COVERITY_BUILD -eq "True") {
         # Compress results.
         Write-Host "Compressing Coverity Scan results..."
@@ -649,10 +656,6 @@ build_script:
           throw "Failed to upload Coverity Scan results with exit code $LastExitCode."
         }
       }
-
-test_script:
-  - cmd: cd /d "%APPVEYOR_BUILD_FOLDER%\build"
-  - cmd: ctest --build-config %CONFIGURATION% --verbose
 
 artifacts:
   - path: build\examples\ma_asio_performance_test_client\$(configuration)\*.exe
