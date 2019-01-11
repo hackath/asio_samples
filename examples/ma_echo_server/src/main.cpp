@@ -126,7 +126,7 @@ public:
       const Handler& exception_handler)
     : session_io_services_(create_session_io_services(execution_config))
     , session_factory_(create_session_factory(execution_config,
-        session_manager_config, session_io_services_))
+          session_manager_config, session_io_services_))
     , session_manager_io_service_(ma::to_io_context_concurrency_hint(
           execution_config.session_manager_thread_count))
     , threads_stopped_(false)
